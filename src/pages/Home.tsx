@@ -11,15 +11,16 @@ const Home = () => {
 
     useEffect(() => {
         axios
-            .get("https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/auth-status", { withCredentials: true })
+            .get("https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/auth-status")
             .then((res) => {
-                if (res.data.authenticated) {
+                console.log('here')
+               if (res.data.authenticated) {
                     axios
-                        .get("https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/live-meetings", { withCredentials: true })
+                        .get("https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/live-meetings")
                         .then((res) => setMeetings(res.data.meetings));
                 } else {
-                    axios.get("https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/login", { withCredentials: true });
-                }
+                   window.location.href = "https://zoom.us/oauth/authorize?response_type=code&client_id=bVMiFciBRdYj3_0jJsTMQ&redirect_uri=https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/callback";
+               }
             })
             .catch(() => {
                 setMeetings(null)
