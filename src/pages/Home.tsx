@@ -11,14 +11,14 @@ const Home = () => {
 
     useEffect(() => {
         axios
-            .get("https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/auth-status")
+            .get("http://localhost:5000/api/auth-status")
             .then((res) => {
                 if (res.data.authenticated) {
                     axios
-                        .get("https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/live-meetings")
+                        .get("http://localhost:5000/api/live-meetings")
                         .then((res) => setMeetings(res.data.meetings));
                 } else {
-                   window.location.href = "https://zoom.us/oauth/authorize?response_type=code&client_id=bVMiFciBRdYj3_0jJsTMQ&redirect_uri=https://zoom-companion-backend-fvg8enfzg6cgg8gy.canadacentral-01.azurewebsites.net/callback";
+                   window.location.href = "http://localhost:5000/api/login";
                 }
             })
             .catch(() => {
