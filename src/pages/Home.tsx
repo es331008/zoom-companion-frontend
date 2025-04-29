@@ -31,8 +31,17 @@ const Home = () => {
             .finally(() => setLoading(false));
     }, []);
 
-    const navigateToMeeting = (meetingId: number) => {
-        navigate(`/companion/${meetingId}`)
+    const navigateToMeeting = (join_url: string) => {
+        const url = new URL(join_url)
+        const meetingId = url.pathname.split('/').pop()
+        const pwd = url.searchParams.get('pwd')
+
+        if (pwd != null) {
+            // Don't want to expose this in a url
+            sessionStorage.setItem(`zoom_pwd_${meetingId}`, pwd)
+        }
+
+        navigate(`/companion/${meetingId}`);
     }
 
     return meetings ? (
@@ -55,7 +64,7 @@ const Home = () => {
                                 primary={meeting.topic}
                                 secondary={`Meeting ID: ${meeting.id}`}
                             />
-                            <Button variant="contained" color="primary" onClick={() => navigateToMeeting(meeting.id)}>
+                            <Button variant="contained" color="primary" onClick={() => navigateToMeeting(meeting.join_url)}>
                                 Request Companion
                             </Button>
                         </ListItem>
