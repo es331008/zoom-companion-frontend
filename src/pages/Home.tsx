@@ -8,14 +8,15 @@ const Home = () => {
     const [meetings, setMeetings] = useState<IMeeting[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    // const navigate = useNavigate();
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/auth-status")
+            .get("http://localhost:5000/api/auth-status", { withCredentials: true })
             .then((res) => {
                 if (res.data.authenticated) {
                     axios
-                        .get("http://localhost:5000/api/live-meetings")
+                        .get("http://localhost:5001/api/live-meetings", { withCredentials: true })
                         .then((res) => setMeetings(res.data.meetings));
                 } else {
                    window.location.href = "http://localhost:5000/api/login";
@@ -28,7 +29,27 @@ const Home = () => {
             .finally(() => setLoading(false));
     }, []);
 
-    console.log(meetings)
+    // const navigateToMeeting = (meetingId: number) => {
+    //     navigate(`/companion/${meetingId}`)
+    // }
+
+    const joinMeeting = async (meetingId: number) => {
+        console.log("Attempting to join meeting: " + meetingId)
+        try {
+            const response = await axios.post("http://localhost:5002/api/join_meeting", {
+                meetingId: meetingId,
+                role: 0
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            return response.data.signature
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return meetings ? (
         <Container maxWidth="md" style={{ marginTop: "50px", textAlign: "center" }}>
@@ -50,7 +71,7 @@ const Home = () => {
                                 primary={meeting.topic}
                                 secondary={`Meeting ID: ${meeting.id}`}
                             />
-                            <Button variant="contained" color="primary" href={meeting.join_url} target="_blank">
+                            <Button variant="contained" color="primary" onClick={() => joinMeeting(meeting.id)}>
                                 Request Companion
                             </Button>
                         </ListItem>
