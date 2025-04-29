@@ -7,10 +7,11 @@ import {EmbeddedClient, ZoomMtgEmbedded} from "@zoom/meetingsdk/embedded";
 const Companion = () => {
     let { meetingId } = useParams();
     const zoomClient = useRef<typeof EmbeddedClient | null>(null);
+    const zoomCompanionAuthServiceUri = import.meta.env.VITE_ZOOM_COMPANION_AUTH_SERVICE_URI;
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/auth-status")
+            .get(`${zoomCompanionAuthServiceUri}/api/auth-status`)
             .then((res) => {
                 if (res.data.authenticated) {
                     // Dont really need to be authenticated
@@ -24,7 +25,7 @@ const Companion = () => {
                     }
                 } else {
                     // TODO: Kick back to /home
-                    window.location.href = "http://localhost:5000/api/login";
+                    window.location.href = `${zoomCompanionAuthServiceUri}/api/login`;
                 }
             })
             .catch(() => {
@@ -35,7 +36,7 @@ const Companion = () => {
     const getMeetingSignature = async (meetingId: number) => {
         console.log("Attempting to get meeting signature for meetingId: " + meetingId)
         try {
-            const response = await axios.post("http://localhost:5000/api/generate-meeting-signature", {
+            const response = await axios.post(`${zoomCompanionAuthServiceUri}/api/generate-meeting-signature`, {
                 meetingId: meetingId,
                 role: 0
             }, {

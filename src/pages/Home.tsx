@@ -9,17 +9,19 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     // const navigate = useNavigate();
+    const zoomCompanionAuthServiceUri = import.meta.env.VITE_ZOOM_COMPANION_AUTH_SERVICE_URI;
+    const zoomCompanionApiServiceUri = import.meta.env.VITE_ZOOM_COMPANION_API_SERVICE_URI;
 
     useEffect(() => {
         axios
-            .get("https://zoom-companion-auth-service-a9fcejcyemewg7db.canadacentral-01.azurewebsites.net/api/auth-status", { withCredentials: true })
+            .get(`${zoomCompanionAuthServiceUri}/api/auth-status`, { withCredentials: true })
             .then((res) => {
                 if (res.data.authenticated) {
                     axios
-                        .get("http://localhost:5001/api/live-meetings", { withCredentials: true })
+                        .get(`${zoomCompanionApiServiceUri}/api/live-meetings`, { withCredentials: true })
                         .then((res) => setMeetings(res.data.meetings));
                 } else {
-                   window.location.href = "https://zoom-companion-auth-service-a9fcejcyemewg7db.canadacentral-01.azurewebsites.net/api/login";
+                   window.location.href = `${zoomCompanionAuthServiceUri}/api/login`;
                 }
             })
             .catch(() => {
