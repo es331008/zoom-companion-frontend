@@ -12,14 +12,14 @@ const Home = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/auth-status", { withCredentials: true })
+            .get("https://zoom-companion-auth-service-a9fcejcyemewg7db.canadacentral-01.azurewebsites.net/api/auth-status", { withCredentials: true })
             .then((res) => {
                 if (res.data.authenticated) {
                     axios
                         .get("http://localhost:5001/api/live-meetings", { withCredentials: true })
                         .then((res) => setMeetings(res.data.meetings));
                 } else {
-                   window.location.href = "http://localhost:5000/api/login";
+                   window.location.href = "https://zoom-companion-auth-service-a9fcejcyemewg7db.canadacentral-01.azurewebsites.net/api/login";
                 }
             })
             .catch(() => {
