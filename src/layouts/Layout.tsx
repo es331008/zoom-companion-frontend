@@ -1,9 +1,10 @@
-import {Drawer, IconButton, List, ListItemButton, ListItemText, Tooltip, Typography} from "@mui/material";
+import {Drawer, IconButton, Typography} from "@mui/material";
 import {Outlet} from "react-router";
 import './Layout.css';
 import {useState} from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import {mockMeetingsToday, mockMeetingsYesterday} from "../data/MockMeetingData.tsx";
+import MeetingList from "../components/MeetingList.tsx";
 
 const drawerWidth = 240;
 
@@ -24,9 +25,9 @@ const Layout = () => {
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
-                    '& .MuiDrawer-paper': {
+                    "& .MuiDrawer-paper": {
                         width: drawerWidth,
-                        boxSizing: 'border-box',
+                        boxSizing: "border-box",
                     },
                 }}
                 anchor="left"
@@ -34,103 +35,8 @@ const Layout = () => {
                 <Typography variant="h6" className="drawer-header">
                     Past Meetings
                 </Typography>
-                <div className="drawer-date-container">
-                    <Typography variant="subtitle2" className="drawer-date-header">
-                        Today
-                    </Typography>
-                    <List>
-                        {mockMeetingsToday.map((meeting) => {
-                            const date = new Date(meeting.start_time);
-                            const formattedDate = date.toLocaleString("en-US", {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                            });
-                            const formattedTime = date.toLocaleTimeString("en-US", {
-                                hour: "numeric",
-                                minute: "2-digit",
-                                hour12: true,
-                            });
-
-                            return (
-                                <Tooltip title={meeting.topic} arrow>
-                                    <ListItemButton key={meeting.id}>
-                                        <ListItemText
-                                            primary={
-                                            <Typography
-                                                variant="body1"
-                                                noWrap
-                                                sx={{
-                                                    overflow: "hidden",
-                                                    textOverflow: "ellipsis",
-                                                    whiteSpace: "nowrap",
-                                                    minHeight: "24px",
-                                                }}
-                                            >
-                                                {meeting.topic}
-                                            </Typography>}
-                                            secondary={
-                                                <Typography variant="body2" color="text.secondary">
-                                                    {`${formattedDate} @ ${formattedTime}`}
-                                                </Typography>
-                                            }
-
-                                        />
-                                    </ListItemButton>
-                                </Tooltip>
-                            );
-                        })}
-                    </List>
-                </div>
-
-                <div className="drawer-date-container">
-                    <Typography variant="subtitle2" className="drawer-date-header">
-                        Yesterday
-                    </Typography>
-                    <List>
-                        {mockMeetingsYesterday.map((meeting) => {
-                            const date = new Date(meeting.start_time);
-                            const formattedDate = date.toLocaleString("en-US", {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                            });
-                            const formattedTime = date.toLocaleTimeString("en-US", {
-                                hour: "numeric",
-                                minute: "2-digit",
-                                hour12: true,
-                            });
-
-                            return (
-                                <Tooltip title={meeting.topic} arrow>
-                                    <ListItemButton key={meeting.id}>
-                                        <ListItemText
-                                            primary={
-                                                <Typography
-                                                    variant="body1"
-                                                    noWrap
-                                                    sx={{
-                                                        overflow: "hidden",
-                                                        textOverflow: "ellipsis",
-                                                        whiteSpace: "nowrap",
-                                                        minHeight: "24px",
-                                                    }}
-                                                >
-                                                    {meeting.topic}
-                                                </Typography>}
-                                            secondary={
-                                                <Typography variant="body2" color="text.secondary">
-                                                    {`${formattedDate} @ ${formattedTime}`}
-                                                </Typography>
-                                            }
-
-                                        />
-                                    </ListItemButton>
-                                </Tooltip>
-                            );
-                        })}
-                    </List>
-                </div>
+                <MeetingList title="Today" meetings={mockMeetingsToday} />
+                <MeetingList title="Yesterday" meetings={mockMeetingsYesterday} />
             </Drawer>
             <Outlet />
         </div>
