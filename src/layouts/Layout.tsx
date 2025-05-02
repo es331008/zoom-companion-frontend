@@ -1,4 +1,4 @@
-import {Drawer, IconButton, Typography} from "@mui/material";
+import {Box, Drawer, IconButton, Typography} from "@mui/material";
 import {Outlet} from "react-router";
 import './Layout.css';
 import {useState} from "react";
@@ -15,7 +15,16 @@ const Layout = () => {
     };
 
     return (
-        <div>
+        <Box
+            sx={{
+                width: '100%',
+                height: '100vh',
+                padding: 3,
+                boxSizing: 'border-box',
+                gap: 3,
+                overflow: 'hidden',
+            }}
+        >
             <IconButton onClick={toggleDrawer(true)}>
                 <MenuIcon />
             </IconButton>
@@ -39,7 +48,7 @@ const Layout = () => {
                 <MeetingList title="Yesterday" meetings={mockMeetingsYesterday} />
             </Drawer>
             <Outlet />
-        </div>
+        </Box>
     );
 }
 

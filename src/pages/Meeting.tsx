@@ -3,6 +3,7 @@ import {Navigate, useParams} from "react-router";
 import {useEffect, useState} from "react";
 import {IMeeting} from "../interfaces/IMeeting.tsx";
 import {mockMeetingsToday, mockMeetingsYesterday} from "../data/MockMeetingData.tsx";
+import MeetingContainer from "../components/MeetingContainer.tsx";
 
 const Meeting = () => {
     let { meetingPmi } = useParams();
@@ -22,7 +23,7 @@ const Meeting = () => {
     }, [meetingPmi]);
 
     return meetingPmi ? (
-        <Container maxWidth="md" style={{ marginTop: "50px", textAlign: "center" }}>
+        <Container style={{ marginTop: "50px", textAlign: "center" }}>
             <Typography variant="h4" gutterBottom>
                 Meeting Data
             </Typography>
@@ -32,9 +33,7 @@ const Meeting = () => {
             ) : meetingData === null ? (
                 <Typography>No meeting data found.</Typography>
             ) : (
-                <Typography variant="h4" gutterBottom>
-                    {meetingData.join_url}
-                </Typography>
+                <MeetingContainer meeting={meetingData} />
             )}
         </Container>
     ) : (
