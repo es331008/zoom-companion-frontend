@@ -22,10 +22,13 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.8",
-    "@mui/material": "^6.4.8",
+    "@fontsource/roboto": "^5.2.5",
+    "@mui/icons-material": "^6.4.11",
+    "@mui/material": "^6.4.11",
     "@zoom/meetingsdk": "^3.12.0",
     "axios": "^1.8.4",
+    "express": "^5.1.0",
+    "http-proxy-middleware": "^3.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router": "^7.4.0"

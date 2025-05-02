@@ -1,3 +1,5 @@
+import {IBotSummary} from "./IBotSummary.tsx";
+
 export interface IMeeting {
     agenda: string;
     duration: number;
@@ -11,5 +13,5 @@ export interface IMeeting {
     topic: string;
     type: string;
     uuid: string;
-
+    botSummary: IBotSummary;
 }
