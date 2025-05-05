@@ -1,8 +1,9 @@
-import {Box, Drawer, IconButton, Typography} from "@mui/material";
-import {Outlet} from "react-router";
+import {Box, Button, Drawer, Fab, Typography} from "@mui/material";
+import {Outlet, useNavigate} from "react-router";
 import './Layout.css';
 import {useState} from "react";
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
 import {mockMeetingsToday, mockMeetingsYesterday} from "../data/MockMeetingData.tsx";
 import MeetingList from "../components/MeetingList.tsx";
 
@@ -10,6 +11,7 @@ const drawerWidth = 240;
 
 const Layout = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const navigate = useNavigate();
     const toggleDrawer = (newOpen: boolean) => () => {
         setIsDrawerOpen(newOpen);
     };
@@ -25,9 +27,9 @@ const Layout = () => {
                 overflow: 'hidden',
             }}
         >
-            <IconButton onClick={toggleDrawer(true)}>
+            <Fab onClick={toggleDrawer(true)}>
                 <MenuIcon />
-            </IconButton>
+            </Fab>
             <Drawer
                 open={isDrawerOpen}
                 onClose={toggleDrawer(false)}
@@ -41,6 +43,13 @@ const Layout = () => {
                 }}
                 anchor="left"
             >
+                <Button
+                    sx={{ marginTop: 2 }}
+                    onClick={() => navigate(`/home`)}
+                    startIcon={<HomeIcon />}
+                >
+                    Home
+                </Button>
                 <Typography variant="h6" className="drawer-header">
                     Past Meetings
                 </Typography>
